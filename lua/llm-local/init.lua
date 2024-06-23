@@ -66,8 +66,16 @@ end
 local function process_data_lines(lines, service, process_data)
 	for _, line in ipairs(lines) do
 		local data
-		if service == "ollama" then
-			data = vim.json.decode(line)
+
+		if service == "ollama" and line ~= nil then
+			if line:match("%S") then -- Ensure line is not just whitespace
+				local status, result = pcall(vim.json.decode, line)
+				if status then
+					data = result
+				else
+					print("JSON decode error:", result)
+				end
+			end
 		else
 			local data_start = line:find("data: ")
 			if data_start then
@@ -75,7 +83,12 @@ local function process_data_lines(lines, service, process_data)
 				if json_str == "[DONE]" then
 					return true
 				end
-				data = vim.json.decode(json_str)
+				local status, result = pcall(vim.json.decode, json_str)
+				if status then
+					data = result
+				else
+					print("JSON decode error:", result)
+				end
 			end
 		end
 
@@ -342,5 +355,3 @@ function M.create_llm_md()
 end
 
 return M
-
--- Generate a hello world in rust
