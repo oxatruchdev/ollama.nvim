@@ -2,15 +2,14 @@
 
 A neovim plugin for no frills LLM-assisted programming.
 
-
 https://github.com/melbaldove/llm.nvim/assets18225174/9bdc2fa1-ade4-48f2-87ce-3019fc323262
-
 
 ### Installation
 
 Before using the plugin, set any of `GROQ_API_KEY`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY` env vars with your api keys.
 
 lazy.nvim
+
 ```lua
 {
     "melbaldove/llm.nvim",
@@ -65,6 +64,7 @@ Triggers the LLM assistant. You can pass an optional `replace` flag to replace t
 Creates a new `llm.md` file in the current working directory, where you can write questions or prompts for the LLM.
 
 **Example Bindings**
+
 ```lua
 vim.keymap.set("n", "<leader>m", function() require("llm").create_llm_md() end)
 
@@ -80,6 +80,7 @@ vim.keymap.set("v", "<leader>g.", function() require("llm").prompt({ replace = t
 ```
 
 ### Roadmap
+
 - [ollama](https://github.com/ollama/ollama) support
 
 ### Credits

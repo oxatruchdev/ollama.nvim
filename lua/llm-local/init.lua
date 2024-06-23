@@ -19,6 +19,11 @@ local service_lookup = {
 		model = "claude-3-5-sonnet-20240620",
 		api_key_name = "ANTHROPIC_API_KEY",
 	},
+	ollama = {
+		url = "http://localhost:11434/api/chat",
+		model = "llama3",
+		api_key_name = nil, -- Ollama doesn't require an API key
+	},
 }
 
 local function get_api_key(name)
@@ -70,7 +75,10 @@ local function process_data_lines(lines, process_data)
 			local data = vim.json.decode(json_str)
 			if "anthropic" then
 				stop = data.type == "message_stop"
+			elseif "ollama" then
+				stop = data.done
 			end
+
 			if stop then
 				return true
 			else
@@ -123,6 +131,11 @@ local function process_sse_response(response, service)
 				if data.delta and data.delta.text then
 					content = data.delta.text
 				end
+			elseif service == "ollama" then
+				if data.message and data.message.content then
+					print(data.message.content)
+					content = data.message.content
+				end
 			else
 				if data.choices and data.choices[1] and data.choices[1].delta then
 					content = data.choices[1].delta.content
@@ -137,6 +150,7 @@ local function process_sse_response(response, service)
 end
 
 function M.prompt(opts)
+	print("Prompt: ", opts.prompt)
 	local replace = opts.replace
 	local service = opts.service
 	local prompt = ""
@@ -197,6 +211,20 @@ Key capabilities:
 			stream = true,
 			max_tokens = 1024,
 		}
+	elseif service == "ollama" then
+		data = {
+			model = opts.model and opts.model or model,
+			messages = {
+				{
+					role = "system",
+					content = system_prompt,
+				},
+				{
+					role = "user",
+					content = prompt,
+				},
+			},
+		}
 	else
 		data = {
 			messages = {
@@ -225,7 +253,7 @@ Key capabilities:
 		vim.json.encode(data),
 	}
 
-	if api_key then
+	if api_key and service ~= "ollama" then
 		if service == "anthropic" then
 			table.insert(args, "-H")
 			table.insert(args, "x-api-key: " .. api_key)
@@ -304,3 +332,5 @@ function M.create_llm_md()
 end
 
 return M
+
+-- Generate a hello world in rust
