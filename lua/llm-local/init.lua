@@ -155,7 +155,6 @@ local function process_sse_response(response, service)
 				end
 			elseif service == "ollama" then
 				if data.message and data.message.content then
-					print(data.message.content)
 					content = data.message.content
 				end
 			else
@@ -172,7 +171,6 @@ local function process_sse_response(response, service)
 end
 
 function M.prompt(opts)
-	print("Prompt: ", opts.prompt)
 	local replace = opts.replace
 	local service = opts.service
 	local prompt = ""
