@@ -175,7 +175,8 @@ function M.prompt(opts)
 	local service = opts.service
 	local prompt = ""
 	local visual_lines = M.get_visual_selection()
-	local system_prompt = [[
+	local system_prompt = opts.system_prompt
+		or [[
 You are an AI programming assistant integrated into a code editor. Your purpose is to help the user with programming tasks as they write code.
 Key capabilities:
 - Thoroughly analyze the user's code and provide insightful suggestions for improvements related to best practices, performance, readability, and maintainability. Explain your reasoning.
@@ -192,7 +193,7 @@ Key capabilities:
 		prompt = table.concat(visual_lines, "\n")
 		if replace then
 			system_prompt =
-				"Follow the instructions in the code comments. Generate code only. Think step by step. If you must speak, do so in comments. Generate valid code only."
+				"You should replace the code that you are sent, only following the comments. Do not talk at all. Only output valid code. Do not provide any backticks that surround the code. Never ever output backticks like this ```. Any comment that is asking you for something should be removed after you satisfy them. Other comments should left alone. Do not output backticks"
 			vim.api.nvim_command("normal! d")
 			vim.api.nvim_command("normal! k")
 		else

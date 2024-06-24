@@ -59,7 +59,7 @@ require('llm').setup({
             model = "llama3",
             api_key_name = "OTHER_PROVIDER_API_KEY",
         }
-    }
+    },
 })
 ```
 
@@ -73,7 +73,26 @@ Creates a new `llm.md` file in the current working directory, where you can writ
 
 **Example Bindings**
 
+Default prompt
+
 ```lua
+[[
+You are an AI programming assistant integrated into a code editor. Your purpose is to help the user with programming tasks as they write code.
+Key capabilities:
+- Thoroughly analyze the user's code and provide insightful suggestions for improvements related to best practices, performance, readability, and maintainability. Explain your reasoning.
+- Answer coding questions in detail, using examples from the user's own code when relevant. Break down complex topics step-by-step.
+- Spot potential bugs and logical errors. Alert the user and suggest fixes.
+- Upon request, add helpful comments explaining complex or unclear code.
+- Suggest relevant documentation, StackOverflow answers, and other resources related to the user's code and questions.
+- Engage in back-and-forth conversations to understand the user's intent and provide the most helpful information.
+- Keep concise and use markdown.
+- When asked to create code, only generate the code. No bugs.
+- Think step by step
+]]
+
+```
+
+````lua
 vim.keymap.set("n", "<leader>m", function()
   require("llm").create_llm_md()
 end)
@@ -84,17 +103,22 @@ vim.keymap.set("v", "<leader>,", function() require("llm").prompt({ replace = fa
 vim.keymap.set("v", "<leader>.", function() require("llm").prompt({ replace = true, service = "groq" }) end)
 
 
+//Examles of different prompts to send
+local help_prompt = "You are a helpful assistant. What I have sent are my notes so far. You are very curt, yet helpful."
+
+local replace_prompt = 'You should replace the code that you are sent, only following the comments. Do not talk at all. Only output valid code. Do not provide any backticks that surround the code. Never ever output backticks like this ```. Any comment that is asking you for something should be removed after you satisfy them. Other comments should left alone. Do not output backticks'
+
 -- keybinds for prompting with ollama
 vim.keymap.set("n", "<leader>g,", function()
-  require("llm").prompt({ replace = false, service = "ollama", model = "llama3" })
+  require("llm").prompt({ replace = false, service = "ollama", model = "llama3", prompt = help_prompt })
 end)
 vim.keymap.set("v", "<leader>g,", function()
-  require("llm").prompt({ replace = false, service = "ollama", model = "llama3" })
+  require("llm").prompt({ replace = false, service = "ollama", model = "llama3",  prompt = help_prompt })
 end)
 vim.keymap.set("v", "<leader>g.", function()
-  require("llm").prompt({ replace = true, service = "ollama", model = "llama3" })
+  require("llm").prompt({ replace = true, service = "ollama", model = "llama3", prompt = replace_prompt })
 end)
-```
+````
 
 ## Roadmap
 
