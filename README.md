@@ -74,7 +74,7 @@ Creates a new `llm.md` file in the current working directory, where you can writ
 
 ```lua
 vim.keymap.set("n", "<leader>m", function()
-  require("llm-local").create_llm_md()
+  require("llm").create_llm_md()
 end)
 
 -- keybinds for prompting with groq
@@ -85,13 +85,13 @@ vim.keymap.set("v", "<leader>.", function() require("llm").prompt({ replace = tr
 
 -- keybinds for prompting with ollama
 vim.keymap.set("n", "<leader>g,", function()
-  require("llm-local").prompt({ replace = false, service = "ollama", model = "llama3" })
+  require("llm").prompt({ replace = false, service = "ollama", model = "llama3" })
 end)
 vim.keymap.set("v", "<leader>g,", function()
-  require("llm-local").prompt({ replace = false, service = "ollama", model = "llama3" })
+  require("llm").prompt({ replace = false, service = "ollama", model = "llama3" })
 end)
 vim.keymap.set("v", "<leader>g.", function()
-  require("llm-local").prompt({ replace = true, service = "ollama", model = "llama3" })
+  require("llm").prompt({ replace = true, service = "ollama", model = "llama3" })
 end)
 ```
 
