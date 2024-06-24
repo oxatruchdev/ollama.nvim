@@ -2,7 +2,8 @@
 
 A neovim plugin for no frills LLM-assisted programming.
 
-https://github.com/melbaldove/llm.nvim/assets18225174/9bdc2fa1-ade4-48f2-87ce-3019fc323262
+https://github.com/osmodiar16/llm.nvim/assets/26916007/40691fdb-e2a3-473a-aace-ae7010a17a1d
+
 
 ### Motivation
 
