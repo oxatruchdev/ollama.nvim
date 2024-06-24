@@ -4,15 +4,22 @@ A neovim plugin for no frills LLM-assisted programming.
 
 https://github.com/melbaldove/llm.nvim/assets18225174/9bdc2fa1-ade4-48f2-87ce-3019fc323262
 
+### Motivation
+
+I decided to make this plugin compatible with ollama since it's the easiest way - at least for me - to launch a LLM API and I like to keep things local.
+The hard work has been done by [melbaldove](https://github.com/melbaldove) and [yacine](https://twitter.com/yacine).
+
 ### Installation
 
 Before using the plugin, set any of `GROQ_API_KEY`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY` env vars with your api keys.
+
+This plugin also allows you to use a local Ollama server, which enables you to bypass the need for an API key.
 
 lazy.nvim
 
 ```lua
 {
-    "melbaldove/llm.nvim",
+    "osmodiar16/llm.nvim",
     dependencies = { "nvim-neotest/nvim-nio" }
 }
 ```
@@ -66,23 +73,33 @@ Creates a new `llm.md` file in the current working directory, where you can writ
 **Example Bindings**
 
 ```lua
-vim.keymap.set("n", "<leader>m", function() require("llm").create_llm_md() end)
+vim.keymap.set("n", "<leader>m", function()
+  require("llm-local").create_llm_md()
+end)
 
 -- keybinds for prompting with groq
 vim.keymap.set("n", "<leader>,", function() require("llm").prompt({ replace = false, service = "groq" }) end)
 vim.keymap.set("v", "<leader>,", function() require("llm").prompt({ replace = false, service = "groq" }) end)
 vim.keymap.set("v", "<leader>.", function() require("llm").prompt({ replace = true, service = "groq" }) end)
 
--- keybinds for prompting with openai
-vim.keymap.set("n", "<leader>g,", function() require("llm").prompt({ replace = false, service = "openai" }) end)
-vim.keymap.set("v", "<leader>g,", function() require("llm").prompt({ replace = false, service = "openai" }) end)
-vim.keymap.set("v", "<leader>g.", function() require("llm").prompt({ replace = true, service = "openai" }) end)
+
+-- keybinds for prompting with ollama
+vim.keymap.set("n", "<leader>g,", function()
+  require("llm-local").prompt({ replace = false, service = "ollama", model = "llama3" })
+end)
+vim.keymap.set("v", "<leader>g,", function()
+  require("llm-local").prompt({ replace = false, service = "ollama", model = "llama3" })
+end)
+vim.keymap.set("v", "<leader>g.", function()
+  require("llm-local").prompt({ replace = true, service = "ollama", model = "llama3" })
+end)
 ```
 
-### Roadmap
+## Roadmap
 
-- [ollama](https://github.com/ollama/ollama) support
+- Add a way to stop the generation even if it's not done
 
 ### Credits
 
 - Special thanks to [yacine](https://twitter.com/i/broadcasts/1kvJpvRPjNaKE) and his ask.md vscode plugin for inspiration!
+- Also special thanks to [melbaldove](https://github.com/melbaldove) for his [llm.nvim](https://github.com/melbaldove/llm.nvim) plugin which was the base to make this plugin compatible with ollama
