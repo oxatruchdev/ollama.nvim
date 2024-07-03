@@ -4,7 +4,6 @@ A neovim plugin for no frills LLM-assisted programming.
 
 https://github.com/osmodiar16/llm.nvim/assets/26916007/40691fdb-e2a3-473a-aace-ae7010a17a1d
 
-
 ### Motivation
 
 I decided to make this plugin compatible with ollama since it's the easiest way - at least for me - to launch a LLM API and I like to keep things local.
@@ -21,7 +20,7 @@ lazy.nvim
 ```lua
 {
     "osmodiar16/llm.nvim",
-    dependencies = { "nvim-neotest/nvim-nio" }
+    dependencies = { 'nvim-lua/plenary.nvim' }
 }
 ```
 
