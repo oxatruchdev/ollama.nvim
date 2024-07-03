@@ -115,7 +115,6 @@ end
 local function process_sse_response(lines, service)
 	process_data_lines(lines, service, function(data)
 		local content
-		print("LINES:", lines)
 		if service == "anthropic" then
 			if data.delta and data.delta.text then
 				content = data.delta.text
