@@ -21,7 +21,7 @@ lazy.nvim
 
 ```lua
 {
-    "osmodiar16/ollama.nvim",
+    "oxatruchdev/ollama.nvim",
     dependencies = { 'nvim-lua/plenary.nvim' }
 }
 ```
